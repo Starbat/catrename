@@ -1,0 +1,13 @@
+report:
+  identifier: '.*report.*'
+  parts:
+    year:
+      regex: '^(\d{4})\D.*'
+    month:
+      regex: '^\d{4}([a-zA-Z]+)_.*'
+      transform: 'lambda m: encode_month(m, "ENG")'
+    account:
+      regex: '.*_(\d{8}\d{,2})_.*'
+    extension:
+      regex: '.*\.(\w+)$'
+  template: '${year}-${month}report_${account}.${extension}'
