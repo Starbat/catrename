@@ -1,8 +1,6 @@
-import os
 import re
 import sys
 from string import Template
-from .File import File
 
 
 class FileCategory():

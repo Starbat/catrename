@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
-import sys
 import unittest
 from unittest.mock import patch, Mock
-from os.path import basename, dirname, join
 from catrename.RenamingSimulator import RenamingSimulator
 
 
@@ -13,9 +11,9 @@ class TestRenamingSimulator(unittest.TestCase):
         self.rs = RenamingSimulator()
         self.category = Mock()
         self.file1 = Mock(dirname='/path', basename='old_name1.txt',
-                     rename_to=Mock())
+                          rename_to=Mock())
         self.file2 = Mock(dirname='/path/to', basename='old_name2.txt',
-                     rename_to=Mock())
+                          rename_to=Mock())
         self.category.files = [self.file1, self.file2]
         self.new_names = ['new_name1.txt', 'new_name2.txt']
         self.category.new_file_name.side_effect = self.new_names

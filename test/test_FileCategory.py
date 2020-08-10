@@ -1,12 +1,10 @@
 #!/usr/bin/env python3
 
-import sys
 import re
 import unittest
 from unittest.mock import Mock, MagicMock
 from string import Template
 from catrename.FileCategory import FileCategory
-from catrename.File import File
 
 
 class TestFileCategory(unittest.TestCase):
@@ -16,7 +14,8 @@ class TestFileCategory(unittest.TestCase):
         part_pattern.name = 'all'
         part_pattern.regex = re.compile('.*')
         part_pattern.transformation = lambda x: x
-        self.fc = FileCategory('great category', '1.*', [part_pattern], '${all}')
+        self.fc = FileCategory('great category', '1.*', [part_pattern],
+                               '${all}')
         self.file1 = MagicMock(dirname='/path/to', basename='1_file.txt')
         self.file2 = MagicMock(dirname='/path/to', basename='2_file.txt')
 
@@ -40,7 +39,7 @@ class TestFileCategory(unittest.TestCase):
         file.get_part_dict = Mock(return_value={'a': 1, 'b': 2})
         self.fc.TEMPLATE.substitute = Mock()
         self.fc.POSTPROC = Mock()
-        output = self.fc.new_file_name(file)
+        _ = self.fc.new_file_name(file)
 
         self.assertTrue(file.find_name_parts.called)
         self.assertTrue(file.transform_parts.called)

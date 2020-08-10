@@ -3,23 +3,27 @@
 
 import datetime
 
-_MONTHS = {
-    'ENG': ['january', 'february', 'march', 'april', 'may', 'june', 'july',
-        'august', 'september', 'october', 'november', 'december'],
-    'GER': ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli',
-        'August', 'September', 'Oktober', 'November', 'Dezember']
-    }
+
+_MONTHS = {'ENG': ['january', 'february', 'march', 'april', 'may', 'june',
+                   'july', 'august', 'september', 'october', 'november',
+                   'december'],
+           'GER': ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli',
+                   'August', 'September', 'Oktober', 'November', 'Dezember']}
+
 
 def encode_month(month_name, lang='ENG'):
     encoding = {name.lower(): f'{num+1:02d}'
                 for num, name in enumerate(_MONTHS[lang])}
     return encoding[month_name.lower()]
 
+
 def decode_month(month_num, lang='ENG'):
     return _MONTHS[lang][month_num-1]
 
+
 def replace_whitespace_by_underscore(string):
     return string.replace(' ', '_')
+
 
 def time_of_day(time_string):
     time = datetime.datetime.strptime(time_string, '%H%M%S')

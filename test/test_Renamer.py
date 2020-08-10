@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
-import sys
 import unittest
-from unittest.mock import Mock, patch, call
+from unittest.mock import patch, call
 from catrename.Renamer import Renamer
 
 

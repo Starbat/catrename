@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import sys
 import unittest
 from unittest.mock import Mock, patch
 from catrename.FileProcessor import FileProcessor
@@ -20,7 +19,7 @@ class TestFileProcessor(unittest.TestCase):
                 'template': '${year}-${month}-{day}_A_${info}.${extension}',
                 'postproc': 'replace_whitespace_by_underscore'
                 },
-            'categoryB': {
+             'categoryB': {
                 'identifier': '.*catB.*',
                 'parts': {
                     'year': {'regex': '.*_(\d{4})\d{4}.*'},
@@ -32,8 +31,7 @@ class TestFileProcessor(unittest.TestCase):
                     },
                 'template': '${year}-${month}-{day}_B_${info}.${extension}'
                 }
-            }
-
+             }
 
     @patch('catrename.FileProcessor.FileProcessor._create_categories')
     def setUp(self, mock_create_categories):
@@ -44,7 +42,7 @@ class TestFileProcessor(unittest.TestCase):
 
     @patch('catrename.FileProcessor.FileProcessor._create_categories')
     def test_init(self, mock_create_categories):
-        fp = FileProcessor(self.rules, Mock())
+        _ = FileProcessor(self.rules, Mock())
         mock_create_categories.assert_called_with(self.rules)
 
     @patch('catrename.FileProcessor.FileCategory')
@@ -63,18 +61,18 @@ class TestFileProcessor(unittest.TestCase):
 
         ruleA = self.rules['categoryA']
         mock_fc.assert_any_call('categoryA', ruleA['identifier'],
-            self.fp._create_part_patterns(ruleA['parts']),
-            ruleA['template'], ruleA['postproc'])
+                                self.fp._create_part_patterns(ruleA['parts']),
+                                ruleA['template'], ruleA['postproc'])
 
         ruleB = self.rules['categoryB']
         mock_fc.assert_any_call('categoryB', ruleB['identifier'],
-            self.fp._create_part_patterns(ruleB['parts']),
-            ruleB['template'])
+                                self.fp._create_part_patterns(ruleB['parts']),
+                                ruleB['template'])
 
     @patch('catrename.FileProcessor.PartPattern')
     def test_create_part_patterns(self, mock_pp):
         partsA = self.rules['categoryA']['parts']
-        part_patterns = self.fp._create_part_patterns(partsA)
+        _ = self.fp._create_part_patterns(partsA)
 
         self.assertEqual(mock_pp.call_count, len(partsA),
                          'Create one PartPattern for each entry.')
@@ -83,7 +81,7 @@ class TestFileProcessor(unittest.TestCase):
 
         mock_pp.reset_mock()
         partsB = self.rules['categoryB']['parts']
-        part_patterns = self.fp._create_part_patterns(partsB)
+        _ = self.fp._create_part_patterns(partsB)
 
         self.assertEqual(mock_pp.call_count, len(partsB))
         mock_pp.assert_any_call('info', partsB['info']['regex'],
@@ -93,12 +91,14 @@ class TestFileProcessor(unittest.TestCase):
         fileA = Mock(basename='file_catA.txt')
         category = self.fp.get_category(fileA)
         self.assertEqual(category.id, 'categoryA',
-                    'Return matching category if only one category matches.')
+                         ('Return matching category if only one category ' +
+                          'matches.'))
 
         fileB = Mock(basename='file_catB.txt')
         category = self.fp.get_category(fileB)
         self.assertEqual(category.id, 'categoryB',
-                    'Return matching category if only one category matches.')
+                         ('Return matching category if only one category ' +
+                          'matches.'))
 
         fileC = Mock(basename='file_catC.txt')
         category = self.fp.get_category(fileC)
@@ -130,7 +130,6 @@ class TestFileProcessor(unittest.TestCase):
         expected_times = len(self.fp.CATEGORIES)
         run_times = len(self.fp.PROCESS.run.call_args_list)
         self.assertEqual(run_times, expected_times)
-
 
 
 if __name__ == "__main__":

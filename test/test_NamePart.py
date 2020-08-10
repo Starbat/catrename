@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import sys
 import re
 import unittest
 from unittest.mock import Mock
@@ -27,7 +26,9 @@ class TestNamePart(unittest.TestCase):
         self.assertTrue(self.namepart.transformed)
 
     def test_get_name(self):
-        self.assertEqual(self.namepart.get_name(), self.namepart.part_pattern.name)
+        self.assertEqual(self.namepart.get_name(),
+                         self.namepart.part_pattern.name)
+
 
 if __name__ == "__main__":
     unittest.main(buffer=True)

@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
-import sys
 import argparse
 import os
 from .Renamer import Renamer
 
+
 def main():
     parser = argparse.ArgumentParser(prog='catrename',
-                                     description='Rename files according to defined rules.')
+                                     description=('Rename files according ' +
+                                                  'to defined rules.'))
 
     default_categories = os.path.join(os.path.dirname(__file__),
                                       'categories.yaml')
@@ -36,6 +37,7 @@ def main():
     renamer = Renamer(args.categories, args.paths,
                       recursive=args.recursive, simulate=args.simulate)
     renamer.rename()
+
 
 if __name__ == '__main__':
     main()

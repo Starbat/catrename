@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import sys
 import unittest
 from os.path import basename, dirname, join
 from unittest.mock import patch, Mock
@@ -126,6 +125,7 @@ class TestFile(unittest.TestCase):
         self.assertTrue(type(hash(self.file)), int)
         self.assertNotEqual(hash(this), hash(that))
         self.assertEqual(hash(this), hash(same))
+
 
 if __name__ == "__main__":
     unittest.main(buffer=True)

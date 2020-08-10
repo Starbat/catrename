@@ -1,6 +1,3 @@
-from .transformations import *
-
-
 class NamePart:
 
     def __init__(self, part_pattern, name_part):

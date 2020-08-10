@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
-import sys
 import re
 import unittest
-from unittest.mock import Mock
 from catrename.PartPattern import PartPattern
 
 
