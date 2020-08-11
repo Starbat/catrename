@@ -17,10 +17,10 @@ class File:
         new_path = os.path.join(self.dirname, new_basename)
         try:
             os.rename(old_path, new_path)
-            self.basename = new_basename
-            return True
         except Exception:
             return False
+        self.basename = new_basename
+        return True
 
     def find_name_parts(self, part_patterns):
         self.name_parts = []

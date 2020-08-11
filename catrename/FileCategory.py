@@ -1,6 +1,5 @@
 import re
 import sys
-from string import Template
 
 
 class FileCategory():
@@ -8,9 +7,9 @@ class FileCategory():
     def __init__(self, name, identifier, part_patterns, template,
                  postproc=lambda s: s):
         self.NAME = name
-        self.IDENTIFIER = re.compile(identifier)
+        self.IDENTIFIER = identifier
         self.PART_PATTERNS = part_patterns
-        self.TEMPLATE = Template(template)
+        self.TEMPLATE = template
         self.POSTPROC = postproc
         self.files = set()
 
@@ -27,12 +26,13 @@ class FileCategory():
         transformed_parts = file.get_part_dict()
         try:
             new_name = self.TEMPLATE.substitute(transformed_parts)
-            new_name = self.POSTPROC(new_name)
-            return new_name
         except KeyError as err:
             print(f'{file}: an error occurred with name part {err}. ' +
                   f'File classified as {self.NAME}.', file=sys.stderr)
             return file.basename
+        new_name = self.POSTPROC(new_name)
+        return new_name
+
 
     def __str__(self):
         return (f'NAME: {self.NAME}, IDENTIFIER: {self.IDENTIFIER}, ' +

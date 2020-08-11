@@ -47,6 +47,9 @@ class FileProcessor:
             category = self.get_category(file)
             if category:
                 category.add_file(file)
+            else:
+                print(f'{file} will be skipped.',
+                      file=sys.stderr)
 
     def run(self):
         for c in self.CATEGORIES:

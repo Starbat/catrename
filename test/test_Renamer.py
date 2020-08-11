@@ -1,26 +1,29 @@
 #!/usr/bin/env python3
 
 import unittest
-from unittest.mock import patch, call
+from unittest.mock import patch, call, Mock
 from catrename.Renamer import Renamer
 
 
 class TestRenamer(unittest.TestCase):
 
     @patch('catrename.Renamer.FileProcessor')
-    @patch('catrename.Renamer.Renamer.load_yaml')
+    @patch('catrename.Renamer.ConfigLoader')
     @patch('catrename.Renamer.Renamer._get_files')
-    def setUp(self, mock_get_files, mock_load_yaml, mock_file_processor):
+    def setUp(self, mock_get_files, mock_config_loader, mock_file_processor):
         self.mock_get_files = mock_get_files
-        self.mock_load_yaml = mock_load_yaml
+        self.config_loader_instance = Mock()
+        self.mock_config_loader = mock_config_loader
+        self.mock_config_loader.return_value = self.config_loader_instance
         self.mock_file_processor = mock_file_processor
         self.renamer = Renamer("/path/categories.yaml",
                                ['/path/file1.txt', '/path/file2.txt'])
 
     def test_init(self):
-        self.assertTrue(self.mock_get_files.called)
-        self.assertTrue(self.mock_load_yaml.called)
-        self.assertTrue(self.mock_file_processor.called)
+        self.mock_get_files.assert_called_once()
+        self.mock_config_loader.assert_called_once()
+        self.config_loader_instance.load_yaml.assert_called_once()
+        self.mock_file_processor.assert_called_once()
 
     @patch('catrename.Renamer.os.walk')
     @patch('catrename.Renamer.print')
@@ -63,9 +66,6 @@ class TestRenamer(unittest.TestCase):
         self.renamer.rename()
         self.renamer.file_processor.add_files.assert_called()
         self.renamer.file_processor.run.assert_called()
-
-    def test_load_yaml(self):
-        pass
 
 
 if __name__ == "__main__":

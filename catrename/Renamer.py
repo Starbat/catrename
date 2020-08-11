@@ -2,17 +2,17 @@
 
 import sys
 import os
-import yaml
 from .File import File
 from .RenamingProcessor import RenamingProcessor
 from .RenamingSimulator import RenamingSimulator
 from .FileProcessor import FileProcessor
+from .ConfigLoader import ConfigLoader
 
 
 class Renamer:
 
     def __init__(self, config, paths, recursive=False, simulate=False):
-        rules = self.load_yaml(config)
+        rules = ConfigLoader().load_yaml(config)
         process = RenamingSimulator() if simulate else RenamingProcessor()
         self.file_processor = FileProcessor(rules, process)
 
@@ -41,8 +41,3 @@ class Renamer:
             else:
                 print(f'{path} does not exist.', file=sys.stderr)
         return file_list
-
-    def load_yaml(self, path):
-        with open(path) as f:
-            rules = yaml.load(f, Loader=yaml.FullLoader)
-        return rules

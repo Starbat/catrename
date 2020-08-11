@@ -3,7 +3,6 @@
 import re
 import unittest
 from unittest.mock import Mock, MagicMock
-from string import Template
 from catrename.FileCategory import FileCategory
 
 
@@ -15,13 +14,9 @@ class TestFileCategory(unittest.TestCase):
         part_pattern.regex = re.compile('.*')
         part_pattern.transformation = lambda x: x
         self.fc = FileCategory('great category', '1.*', [part_pattern],
-                               '${all}')
+                               Mock())
         self.file1 = MagicMock(dirname='/path/to', basename='1_file.txt')
         self.file2 = MagicMock(dirname='/path/to', basename='2_file.txt')
-
-    def test_init(self):
-        self.assertIsInstance(self.fc.IDENTIFIER, re.Pattern)
-        self.assertIsInstance(self.fc.TEMPLATE, Template)
 
     def test_add_file(self):
         val = self.fc.add_file(self.file1)

@@ -8,15 +8,9 @@ class NamePart:
     def transform(self):
         if self.transformed:
             return False
-        else:
-            tf = self.part_pattern.transformation
-            if type(tf) is str:
-                fun = eval(tf)
-            else:
-                fun = tf
-            self.name_part = fun(self.name_part)
-            self.transformed = True
-            return True
+        self.name_part = self.part_pattern.transformation(self.name_part)
+        self.transformed = True
+        return True
 
     def get_name(self):
         return self.part_pattern.name

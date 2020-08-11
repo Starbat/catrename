@@ -21,9 +21,15 @@ class TestNamePart(unittest.TestCase):
         self.assertFalse(self.namepart.transformed)
 
     def test_transform(self):
-        self.namepart.transform()
+        output = self.namepart.transform()
         self.assertEqual(self.namepart.name_part, 'bbbbb')
         self.assertTrue(self.namepart.transformed)
+        self.assertTrue(output)
+
+        self.part_pattern.transformation = Mock()
+        output = self.namepart.transform()
+        self.assertFalse(output)
+        self.part_pattern.transformation.assert_not_called()
 
     def test_get_name(self):
         self.assertEqual(self.namepart.get_name(),

@@ -120,9 +120,12 @@ class TestFileProcessor(unittest.TestCase):
         category.add_file.assert_called_once()
 
         self.fp.get_category.reset_mock()
+        category.reset_mock()
         self.fp.get_category = Mock(return_value=None)
         self.fp.add_files(file)
         self.fp.get_category.assert_called_once_with(file)
+        # Skip ambiguous files.
+        category.add_file.assert_not_called()
 
     @patch('catrename.FileProcessor.FileCategory')
     def test_run(self, mock_fc):
